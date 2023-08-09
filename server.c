@@ -1,47 +1,75 @@
-#include <string.h>
-#include <stddef.h>
-#include <signal.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: skawanis <skawanis@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/09 23:59:21 by skawanis          #+#    #+#             */
+/*   Updated: 2023/08/10 00:26:28 by skawanis         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-volatile sig_atomic_t received_signal = -1;
+#include "minitalk.h"
 
-void zero(int sig, siginfo_t *info, void *ctx)
+volatile sig_atomic_t	g_received_signal = -1;
+
+void	zero(int sig, siginfo_t *info, void *ctx)
 {
-	received_signal = 0;
+	(void)sig;
+	(void)info;
+	(void)ctx;
+	g_received_signal = 0;
 }
 
-void one(int sig, siginfo_t *info, void *ctx)
+void	one(int sig, siginfo_t *info, void *ctx)
 {
-	received_signal = 1;
+	(void)sig;
+	(void)info;
+	(void)ctx;
+	g_received_signal = 1;
+}
+
+void	main_loop(void)
+{
+	size_t			count;
+	unsigned char	c;
+
+	count = 0;
+	while (1)
+	{
+		if (g_received_signal != -1)
+		{
+			if (g_received_signal == 1)
+				c = c | (0b10000000 >> count);
+			count++;
+			g_received_signal = -1;
+		}
+		if (count == 8)
+		{
+			if (c == '\0')
+				c = '\n';
+			write(1, &c, 1);
+			count = 0;
+			c = 0;
+		}
+	}
 }
 
 int	main(void)
 {
-	struct sigaction sa_zero;
-	struct sigaction sa_one;
+	struct sigaction	sa_zero;
+	struct sigaction	sa_one;
 
-	memset(&sa_one, 0, sizeof(sa_one));
-	memset(&sa_zero, 0, sizeof(sa_zero));
+	ft_printf("%u\n", getpid());
+	ft_memset(&sa_one, 0, sizeof(sa_one));
+	ft_memset(&sa_zero, 0, sizeof(sa_zero));
 	sa_zero.sa_sigaction = zero;
 	sa_zero.sa_flags = SA_SIGINFO;
 	sa_one.sa_sigaction = one;
 	sa_one.sa_flags = SA_SIGINFO;
 	sigaction(SIGUSR1, &sa_zero, NULL);
 	sigaction(SIGUSR2, &sa_one, NULL);
-	while (1)
-	{
-		if (received_signal == 0)
-		{
-			write(1, "0", 1);
-			received_signal = -1;
-		}
-		else if (received_signal == 1)
-		{
-			write(1, "1", 1);
-			received_signal = -1;
-		}
-		sleep (1);
-	}
+	main_loop();
+	return (0);
 }
