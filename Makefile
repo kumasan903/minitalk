@@ -1,10 +1,11 @@
+NAME		= name
 NAME_CLIENT	= client
 NAME_SERVER	= server
 SRCS_CLIENT	= client.c
 OBJS_CLIENT	= $(SRCS_CLIENT:.c=.o)
 SRCS_SERVER	= server.c
 OBJS_SERVER	= $(SRCS_SERVER:.c=.o)
-CC			= gcc
+CC			= cc
 CFLAGS		= -Wall -Wextra -Werror
 
 all		:	$(NAME)
