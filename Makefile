@@ -23,10 +23,12 @@ $(NAME_SERVER)	:	$(OBJS_SERVER)
 clean	:
 	$(RM) $(OBJS_CLIENT)
 	$(RM) $(OBJS_SERVER)
+	$(MAKE) clean -C libft
 
 fclean	:	clean
 	$(RM) $(NAME_CLIENT)
 	$(RM) $(NAME_SERVER)
+	$(MAKE) fclean -C libft
 
 re		:	fclean all
 
