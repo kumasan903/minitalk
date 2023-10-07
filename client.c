@@ -6,7 +6,7 @@
 /*   By: skawanis <skawanis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 23:59:15 by skawanis          #+#    #+#             */
-/*   Updated: 2023/09/24 15:22:19 by skawanis         ###   ########.fr       */
+/*   Updated: 2023/10/07 17:43:51 by skawanis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	send_char(unsigned char c, pid_t pid)
 			kill(pid, SIGUSR1);
 		c = c << 1;
 		i++;
-		usleep(50);
+		usleep(500);
 	}
 }
 
@@ -48,8 +48,6 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	server_pid = ft_atoi(argv[1]);
-	if (server_pid <= 0)
-		return (1);
 	i = 0;
 	while (argv[2][i])
 	{
