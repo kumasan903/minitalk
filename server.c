@@ -6,7 +6,7 @@
 /*   By: skawanis <skawanis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 17:22:29 by skawanis          #+#    #+#             */
-/*   Updated: 2023/10/07 17:41:11 by skawanis         ###   ########.fr       */
+/*   Updated: 2023/10/08 18:44:07 by skawanis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	action(int signal)
 {
-	static char	c;
+	static char		c;
 	static size_t	count;
 
 	if (signal == SIGUSR2)
@@ -35,6 +35,6 @@ int	main(void)
 	ft_printf("%u\n", getpid());
 	signal(SIGUSR1, action);
 	signal(SIGUSR2, action);
-	while(1)
+	while (1)
 		pause();
 }
