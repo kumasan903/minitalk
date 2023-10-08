@@ -6,7 +6,7 @@
 /*   By: skawanis <skawanis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 23:59:15 by skawanis          #+#    #+#             */
-/*   Updated: 2023/10/07 17:43:51 by skawanis         ###   ########.fr       */
+/*   Updated: 2023/10/08 18:46:09 by skawanis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	server_pid = ft_atoi(argv[1]);
+	if (server_pid <= 0)
+		return (1);
 	i = 0;
 	while (argv[2][i])
 	{
